@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import JsonPlaceHolder from '../apis/JsonPlaceHolder';
 
 
@@ -17,10 +18,36 @@ import JsonPlaceHolder from '../apis/JsonPlaceHolder';
 // Because we used redux-thunk, we return a function inside of action-creator
 export const fetchPosts = () => async (dispatch) => {
     const response = await JsonPlaceHolder.get('/posts');
-    console.log(response);
+    const posts = response.data.slice(0, 50);
 
     dispatch({
-        type: 'FETCH_POST',
-        payload: response
+        type: 'FETCH_POSTS',
+        payload: posts
     });
 };
+
+
+// Normal fetchUser
+// export const fetchUser = (id) => async (dispatch) => {
+//     const user = await JsonPlaceHolder.get(`/users/${id}`);
+
+//     dispatch({
+//         type: 'FETCH_USER',
+//         payload: user.data
+//     });
+// } 
+// End Normal fetchUser
+
+
+// Memoize solution
+export const fetchUser = (id) => (dispatch) => _fetchUser(id, dispatch);
+
+const _fetchUser = _.memoize(async (id, dispatch) => {
+    const user = await JsonPlaceHolder.get(`/users/${id}`);
+
+    dispatch({
+        type: 'FETCH_USER',
+        payload: user.data
+    });
+});
+// End Memoize solution
