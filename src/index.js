@@ -23,7 +23,7 @@ ReactDOM.render(
     , document.querySelector('#integrate-react-redux-root #integrate-react-redux-content')
 );
 
-// 14. 
+// 14. 15.
 const appPost14Store = createStore(AppPost14Reducers, applyMiddleware(thunk));
 ReactDOM.render(
     <Provider store={appPost14Store} >
